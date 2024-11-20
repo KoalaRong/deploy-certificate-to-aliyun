@@ -35,7 +35,7 @@ def upload_certificate(client, domain_name, cert_path, key_path):
     request.set_SSLProtocol('on')
     request.set_SSLPub(cert)
     request.set_SSLPri(key)
-    request.set_CertRegion('cn-hangzhou')
+    request.set_CertRegion('cn-beijing')
 
     response = client.do_action_with_exception(request)
     print(str(response, encoding='utf-8'))
@@ -46,11 +46,11 @@ def main():
     domains = get_env_var('DOMAINS').split(',')
     cdn_domains = get_env_var('ALIYUN_CDN_DOMAINS').split(',')
 
-    client = AcsClient(access_key_id, access_key_secret, 'cn-hangzhou')
+    client = AcsClient(access_key_id, access_key_secret, 'cn-beijing')
 
     for domain, cdn_domain in zip(domains, cdn_domains):
-        cert_path = f'~/certs/{domain}/fullchain.pem'
-        key_path = f'~/certs/{domain}/privkey.pem'
+        cert_path = f'~/webapp/nginx/cert.d/koalarong.com.ecc.cer'
+        key_path = f'~/webapp/nginx/cert.d/koalarong.com.ecc.key'
         upload_certificate(client, cdn_domain, cert_path, key_path)
 
 if __name__ == "__main__":
